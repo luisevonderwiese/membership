@@ -8,10 +8,8 @@ from scipy import stats
 import numpy as np
 
 from lingdata import database
-from lingdata.categorical import CategoricalData
 
 import code.distances as distances
-from code.distances import DistanceMatrixIO
 import code.util as util
 
 
