@@ -59,11 +59,11 @@ results_dir = "data/results"
 
 database.read_config(config_path)
 #database.download()
-#database.compile()
+database.compile()
 df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
 
 #run_raxml_ng(df)
 #run_pythia(df)
-write_results_df(df)
+#write_results_df(df)
