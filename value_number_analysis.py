@@ -55,7 +55,7 @@ x = range(len(big_matrix))
 print(len(big_matrix))
 max_len = max([len(el) for el in big_matrix])
 print(max_len)
-y_old = [0 for i in range(len(big_matrix))]
+y_old = [0 for el in x]
 for count in range(max_len):
     y_new = []
     for group in big_matrix:
@@ -69,4 +69,18 @@ for count in range(max_len):
         y_old[i] = y_old[i] + y_new[i]
 ax.legend()
 plt.savefig(os.path.join(plots_dir, "stacked.png"))
+plt.clf()
+
+all_counts = [row["value_number_counts"] for i,row in df.iterrows()]
+max_num = max([len(counts) for counts in all_counts])
+fig,ax = plt.subplots(figsize=(40, 30))
+x = range(len(all_counts))
+y_old = [0 for el in x]
+for num in range(max_num):
+    y_new = [counts[num] for counts in all_counts]
+    ax.bar(x, y_new, bottom=y_old, label = str(num))
+    for i in x:
+        y_old[i] = y_old[i] + y_new[i]
+ax.legend()
+plt.savefig(os.path.join(plots_dir, "stacked_per_dataset.png"))
 plt.clf()
