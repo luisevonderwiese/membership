@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 def run_raxml_ng(df):
     for (i, row) in df.iterrows():
-        raxmlng.run_search1(row["msa_paths"]["prototype"], row["MULTI_xGTR_prototype"], util.prefix(results_dir, row, "raxmlng", "prototype"))
+        raxmlng.run_search1(row["msa_paths"]["prototype"], row["MULTIx_GTR_prototype"], util.prefix(results_dir, row, "raxmlng", "prototype"))
 
 def write_results_df(df):
     sampled_difficulties = []
@@ -67,7 +67,7 @@ if not os.path.isdir(plots_dir):
 
 database.read_config(config_path)
 #database.download()
-database.compile()
+#database.compile()
 df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
