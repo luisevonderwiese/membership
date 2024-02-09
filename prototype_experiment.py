@@ -57,7 +57,7 @@ raxmlng.exe_path = "./bin/raxml-ng"
 pythia.raxmlng_path = "./bin/raxml-ng"
 pythia.predictor_path = "predictors/latest.pckl"
 distances.exe_path = "./bin/qdist"
-config_path = "membership_lingdata_config.json"
+config_path = "prototype_lingdata_config.json"
 results_dir = "data/results"
 plots_dir = os.path.join(results_dir, "heatmaps")
 if not os.path.isdir(plots_dir):
