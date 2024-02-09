@@ -45,16 +45,13 @@ for i,row in df.iterrows():
         for j, count in enumerate(counts):
             big_matrix[i][j] += count
 
-print(big_matrix)
 fig,ax = plt.subplots(figsize=(40, 30))
 #cm = plt.get_cmap('gist_rainbow')
 #fig = plt.figure()
 #ax = fig.add_subplot(111)
 #ax.set_prop_cycle(color=[cm(1.*i/len(big_matrix)) for i in range(len(big_matrix))])
 x = range(len(big_matrix))
-print(len(big_matrix))
 max_len = max([len(el) for el in big_matrix])
-print(max_len)
 y_old = [0 for el in x]
 for count in range(max_len):
     y_new = []
@@ -77,7 +74,12 @@ fig,ax = plt.subplots(figsize=(40, 30))
 x = range(len(all_counts))
 y_old = [0 for el in x]
 for num in range(max_num):
-    y_new = [counts[num] for counts in all_counts]
+    y_new = []
+    for counts in all_counts:
+        if len(counts) > num:
+            y_new.append(counts[num])
+        else:
+            y_new.append(0)
     ax.bar(x, y_new, bottom=y_old, label = str(num))
     for i in x:
         y_old[i] = y_old[i] + y_new[i]
