@@ -32,8 +32,16 @@ df = pd.merge(df, results_df, how = 'left', left_on=["ds_id", "source", "ling_ty
 print(df)
 
 plt.axline([0, 0], slope=1, color = 'lightgray', linewidth = 1, linestyle = "--")
-plt.scatter(df["gq_glottolog_bin"], df["gq_glottolog_membership"], s=10)
+plt.scatter(df["gq_glottolog_bin"], df["gq_glottolog_membership_lev"], s=10)
 plt.xlabel('bin')
-plt.ylabel('membership')
-plt.savefig(os.path.join(plots_dir, "scatter_gq.png"))
+plt.ylabel('membership_lev')
+plt.savefig(os.path.join(plots_dir, "scatter_lev.png"))
+plt.clf()
+
+
+plt.axline([0, 0], slope=1, color = 'lightgray', linewidth = 1, linestyle = "--")
+plt.scatter(df["gq_glottolog_bin"], df["gq_glottolog_membership_jaro"], s=10)
+plt.xlabel('bin')
+plt.ylabel('membership_jaro')
+plt.savefig(os.path.join(plots_dir, "scatter_jaro.png"))
 plt.clf()
