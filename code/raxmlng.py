@@ -28,6 +28,8 @@ def consensus_tree_path(prefix):
     return prefix + ".raxml.consensusTreeMR"
 
 def alpha(prefix):
+    if not os.path.isfile(prefix + ".raxml.log"):
+        return float("nan")
     with open(prefix + ".raxml.log", "r") as logfile:
         lines = logfile.readlines()
     for line in lines:

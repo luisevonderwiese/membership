@@ -16,12 +16,13 @@ from ete3 import Tree
 def run_raxml_ng(df):
     for (i, row) in df.iterrows():
         raxmlng.run_inference(row["msa_paths"]["bin"], "BIN+G", util.prefix(results_dir, row, "raxmlng", "bin"))
-        raxmlng.run_inference(row["msa_paths"]["membership_lev"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership"), "--prob-msa on")
-        raxmlng.run_inference(row["msa_paths"]["membership_jaro"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership"), "--prob-msa on")
+        raxmlng.run_inference(row["msa_paths"]["membership_lev"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership_lev"), "--prob-msa on")
+        raxmlng.run_inference(row["msa_paths"]["membership_jaro"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership_jaro"), "--prob-msa on")
 
 def write_results_df(df):
     sampled_difficulties = []
     for i, row in df.iterrows():
+        print(row["ds_id"])
         alpha = raxmlng.alpha(util.prefix(results_dir, row, "raxmlng", "bin"))
         df.at[i, "alpha"] = alpha
         if alpha < 20:
@@ -77,6 +78,6 @@ df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
 
-#run_raxml_ng(df)
-#run_pythia(df)
-#write_results_df(df)
+run_raxml_ng(df)
+run_pythia(df)
+write_results_df(df)
