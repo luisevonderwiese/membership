@@ -67,7 +67,7 @@ if not os.path.isdir(plots_dir):
 
 database.read_config(config_path)
 #database.download()
-#database.compile()
+database.compile()
 df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
