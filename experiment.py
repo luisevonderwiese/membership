@@ -18,6 +18,7 @@ def run_raxml_ng(df):
         raxmlng.run_inference(row["msa_paths"]["bin"], "BIN+G", util.prefix(results_dir, row, "raxmlng", "bin"))
         raxmlng.run_inference(row["msa_paths"]["membership_lev"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership_lev"), "--prob-msa on")
         raxmlng.run_inference(row["msa_paths"]["membership_jaro"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership_jaro"), "--prob-msa on")
+        raxmlng.run_inference(row["msa_paths"]["membership_mattis"], "BIN+G", util.prefix(results_dir, row, "raxmlng" , "membership_mattis"), "--prob-msa on")
 
 def write_results_df(df):
     sampled_difficulties = []
@@ -34,23 +35,29 @@ def write_results_df(df):
         bin_tree_path = raxmlng.best_tree_path(util.prefix(results_dir, row, "raxmlng", "bin"))
         membership_lev_tree_path = raxmlng.best_tree_path(util.prefix(results_dir, row, "raxmlng", "membership_lev"))
         membership_jaro_tree_path = raxmlng.best_tree_path(util.prefix(results_dir, row, "raxmlng", "membership_jaro"))
+        membership_mattis_tree_path = raxmlng.best_tree_path(util.prefix(results_dir, row, "raxmlng", "membership_jaro"))
+
         df.at[i, "gq_glottolog_bin"] = distances.gq_distance(glottolog_tree_path, bin_tree_path)
         df.at[i, "gq_glottolog_membership_lev"] = distances.gq_distance(glottolog_tree_path, membership_lev_tree_path)
         df.at[i, "gq_glottolog_membership_jaro"] = distances.gq_distance(glottolog_tree_path, membership_jaro_tree_path)
+        df.at[i, "gq_glottolog_membership_mattis"] = distances.gq_distance(glottolog_tree_path, membership_mattis_tree_path)
+
         if not os.path.isfile(bin_tree_path) or not os.path.isfile(membership_lev_tree_path):
             df.at[i, "rf_bin_membership_lev"] = float('nan')
         else:
             df.at[i, "rf_bin_membership_lev"] = distances.rf_distance(Tree(bin_tree_path), Tree(membership_lev_tree_path))
+
         if not os.path.isfile(bin_tree_path) or not os.path.isfile(membership_jaro_tree_path):
             df.at[i, "rf_bin_membership_jaro"] = float('nan')
         else:
             df.at[i, "rf_bin_membership_jaro"] = distances.rf_distance(Tree(bin_tree_path), Tree(membership_jaro_tree_path))
+
         if not os.path.isfile(membership_lev_tree_path) or not os.path.isfile(membership_jaro_tree_path):
             df.at[i, "rf_membership_lev_jaro"] = float('nan')
         else:
             df.at[i, "rf_membership_lev_jaro"] = distances.rf_distance(Tree(membership_lev_tree_path), Tree(membership_jaro_tree_path))
     print_df = df[["ds_id", "source", "ling_type", "family", "alpha", "heterogenity", "difficulty",
-                    "gq_glottolog_bin", "gq_glottolog_membership_lev", "gq_glottolog_membership_jaro",
+                    "gq_glottolog_bin", "gq_glottolog_membership_lev", "gq_glottolog_membership_jaro", "gq_glottolog_membership_mattis",
                     "rf_bin_membership_lev", "rf_bin_membership_jaro", "rf_membership_lev_jaro"]]
     print(print_df)
     print_df.to_csv(os.path.join(results_dir, "results.csv"), sep = ";")
@@ -73,11 +80,11 @@ results_dir = "data/results"
 
 database.read_config(config_path)
 #database.download()
-database.compile()
+#database.compile()
 df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
 
 run_raxml_ng(df)
-run_pythia(df)
+#run_pythia(df)
 write_results_df(df)
