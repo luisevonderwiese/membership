@@ -80,7 +80,7 @@ results_dir = "data/results"
 
 database.read_config(config_path)
 #database.download()
-#database.compile()
+database.compile()
 df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
