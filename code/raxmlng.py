@@ -108,6 +108,6 @@ def run_search1(msa_path, model, prefix, args = ""):
     command += " --msa " + msa_path
     command += " --model " + model
     command += " --prefix " + prefix
-    command += " --threads 30 --seed 2"
+    command += " --threads 32 --seed 2"
     command += " " + args
     os.system(command)
