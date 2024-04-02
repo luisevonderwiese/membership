@@ -44,6 +44,8 @@ def to_matrix(rates, x):
 def plot_heatmaps(df):
     for i,row in df.iterrows():
         rates = raxmlng.substitution_rates(util.prefix(results_dir, row, "raxmlng", "prototype"))
+        if len(rates) == 0:
+            continue
         rate_matrix = to_matrix(rates, row["max_values_prototype"])
         rate_matrix = np.array(rate_matrix)
         plt.imshow(rate_matrix)
@@ -72,5 +74,5 @@ df = database.data()
 pd.set_option('display.max_rows', None)
 print(df)
 
-run_raxml_ng(df)
+#run_raxml_ng(df)
 plot_heatmaps(df)

@@ -47,6 +47,8 @@ def base_frequencies(prefix):
     return []
 
 def substitution_rates(prefix):
+    if not os.path.isfile(prefix + ".raxml.log"):
+	return []
     with open(prefix + ".raxml.log", "r") as logfile:
         lines = logfile.readlines()
     for line in lines:
